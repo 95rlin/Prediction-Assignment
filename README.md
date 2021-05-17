@@ -10,10 +10,19 @@ Six young health participants were asked to perform one set of 10 repetitions of
 4. lowering the dumbbell only halfway (Class D)
 5. throwing the hips to the front (Class E)
 
-### Clean training and testing set
-
-
+### Preparing Datasets
+The datasets are imported. All of the non-numerical data (blank spaces, "NA", "#DIV/0!") is set to NA. 
 ```
+library(caret)
+library(randomForest)
+
 train_csv <- read.csv(file = "week4_proj/pml-training.csv", header = TRUE, na.strings=c("", "NA", "#DIV/0!"))  # set all missing data to NA
 test_csv <- read.csv(file = "week4_proj/pml-testing.csv", header = TRUE, na.strings=c("", "NA", "#DIV/0!")) # set all missing data to NA
+```
+The datasets are further cleaned by removing the useless data in the first 7 columns. Columns with NA area also removed.
+```
+train_csv <- train_csv[ , -c(1:7)] # remove first 7 columns of useless data
+test_csv <- test_csv[ , -c(1:7)] # remove first 7 columns of useless data
+clean_train_csv <- train_csv[, colSums(is.na(train_csv)) ==0]] # remove columns with NA
+clean_test_csv <- test_csv[,colSums(is.na(test_csv)) == 0] # remove columns with NA
 ```
