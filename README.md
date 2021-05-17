@@ -16,8 +16,8 @@ The datasets are imported. All of the non-numerical data (blank spaces, "NA", "#
 library(caret)
 library(randomForest)
 
-train_csv <- read.csv(file = "week4_proj/pml-training.csv", header = TRUE, na.strings=c("", "NA", "#DIV/0!"))  # set all missing data to NA
-test_csv <- read.csv(file = "week4_proj/pml-testing.csv", header = TRUE, na.strings=c("", "NA", "#DIV/0!")) # set all missing data to NA
+train_csv <- read.csv(file = "week4_proj/pml-training.csv", header = TRUE, na.strings=c("", "NA", "#DIV/0!"))
+test_csv <- read.csv(file = "week4_proj/pml-testing.csv", header = TRUE, na.strings=c("", "NA", "#DIV/0!")) 
 ```
 The datasets are further cleaned by removing the useless data in the first 7 columns. Columns with NA are also removed.
 ```
@@ -33,3 +33,30 @@ inTrain <- createDataPartition(y=clean_train_csv$classe, p=0.7, list=FALSE) #
 training <- clean_train_csv[inTrain,]
 testing <- clean_train_csv[-inTrain,]
 ```
+### Model (Random Forest)
+I decided to use Random Forest as the model because of its accuracy. However, I had to limit the number of trees generated in the model because of Random Forests's slow speed.
+
+```
+modFit <- train(classe ~., data=clean_train_csv, method="rf", ntree=5)
+
+Random Forest 
+
+19622 samples
+   52 predictor
+    5 classes: 'A', 'B', 'C', 'D', 'E' 
+
+No pre-processing
+Resampling: Bootstrapped (25 reps) 
+Summary of sample sizes: 19622, 19622, 19622, 19622, 19622, 19622, ... 
+Resampling results across tuning parameters:
+
+  mtry  Accuracy   Kappa    
+   2    0.9610778  0.9507256
+  27    0.9809803  0.9759303
+  52    0.9732050  0.9660856
+
+Accuracy was used to select the optimal model using the largest value.
+The final value used for the model was mtry = 27.
+```
+
+
