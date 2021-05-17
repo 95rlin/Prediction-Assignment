@@ -19,10 +19,17 @@ library(randomForest)
 train_csv <- read.csv(file = "week4_proj/pml-training.csv", header = TRUE, na.strings=c("", "NA", "#DIV/0!"))  # set all missing data to NA
 test_csv <- read.csv(file = "week4_proj/pml-testing.csv", header = TRUE, na.strings=c("", "NA", "#DIV/0!")) # set all missing data to NA
 ```
-The datasets are further cleaned by removing the useless data in the first 7 columns. Columns with NA area also removed.
+The datasets are further cleaned by removing the useless data in the first 7 columns. Columns with NA are also removed.
 ```
 train_csv <- train_csv[ , -c(1:7)] # remove first 7 columns of useless data
 test_csv <- test_csv[ , -c(1:7)] # remove first 7 columns of useless data
 clean_train_csv <- train_csv[, colSums(is.na(train_csv)) ==0]] # remove columns with NA
 clean_test_csv <- test_csv[,colSums(is.na(test_csv)) == 0] # remove columns with NA
+```
+Clean_train_csv is partitioned 70% for training and 30% for testing. The seed is set to 999. 
+```
+set.seed(999)
+inTrain <- createDataPartition(y=clean_train_csv$classe, p=0.7, list=FALSE) #
+training <- clean_train_csv[inTrain,]
+testing <- clean_train_csv[-inTrain,]
 ```
