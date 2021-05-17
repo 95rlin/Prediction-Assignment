@@ -71,6 +71,13 @@ accuracy2 <- sum(pred2==testing$classe)/(nrow(testing))
 > accuracy2
 [1] 0.9998301
 ```
+Using accuracy2, the out of sample error is found to be .0001699.
+```
+> oosa <- 1-accuracy2
+> oosa
+[1] 0.0001699
+```
+
 ### Prediction
 Since modFit2 is more accurate, I use this model to predict the test set's classe (clean_test_csv).
 
