@@ -23,7 +23,7 @@ The datasets are further cleaned by removing the useless data in the first 7 col
 ```
 train_csv <- train_csv[ , -c(1:7)] # remove first 7 columns of useless data
 test_csv <- test_csv[ , -c(1:7)] # remove first 7 columns of useless data
-clean_train_csv <- train_csv[, colSums(is.na(train_csv)) ==0]] # remove columns with NA
+clean_train_csv <- train_csv[, colSums(is.na(train_csv)) ==0] # remove columns with NA
 clean_test_csv <- test_csv[,colSums(is.na(test_csv)) == 0] # remove columns with NA
 ```
 Clean_train_csv is partitioned 70% for training and 30% for testing. The seed is set to 999. 
