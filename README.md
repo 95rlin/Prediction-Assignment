@@ -35,28 +35,43 @@ testing <- clean_train_csv[-inTrain,]
 ```
 ### Model (Random Forest)
 I decided to use Random Forest as the model because of its accuracy. However, I had to limit the number of trees generated in the model because of Random Forests's slow speed.
-
+The accuracy of Random Forest can also be improved by implementing a k-fold cross validation. A 2nd modfit is generated with 10 folds in a grid search.
 ```
 modFit <- train(classe ~., data=clean_train_csv, method="rf", ntree=5)
 
-Random Forest 
-
-19622 samples
-   52 predictor
-    5 classes: 'A', 'B', 'C', 'D', 'E' 
-
-No pre-processing
-Resampling: Bootstrapped (25 reps) 
-Summary of sample sizes: 19622, 19622, 19622, 19622, 19622, 19622, ... 
-Resampling results across tuning parameters:
-
-  mtry  Accuracy   Kappa    
-   2    0.9610778  0.9507256
-  27    0.9809803  0.9759303
-  52    0.9732050  0.9660856
-
-Accuracy was used to select the optimal model using the largest value.
-The final value used for the model was mtry = 27.
+trControl <- trainControl(method = "cv", number=10, search="grid")
+modFit2 <- train(classe ~., data=clean_train_csv, trControl = trControl, method="rf", ntree=5)
 ```
+### Validation
+I use the fitted model in Modfit and Modfit2 to test the prediction accuracy with the testing set. 
+To calculate the accuracy, I divided each prediction's number of correct guesses over the total number of test cases (testing's number of rows).
+It was found that modFit2 has better accuracy at 99.98% compared to modFit's 99.81%. Although both models are probably accurate enough to use. 
+```
+pred <- predict(modFit, testing)
+> table(pred,testing$classe)
+pred    A    B    C    D    E
+   A 1674    0    0    0    0
+   B    0 1139    2    0    1
+   C    0    0 1024    2    1
+   D    0    0    0  962    0
+   E    0    0    0    0 1080
+pred2 <- predict(modFit2, testing)
+> table(pred2,testing$classe)
+pred2    A    B    C    D    E
+    A 1674    1    0    0    0
+    B    0 1138    0    0    0
+    C    0    0 1026    0    0
+    D    0    0    0  964    0
+    E    0    0    0    0 1082
+
+accuracy1 <- sum(pred==testing$classe)/(nrow(testing))
+> accuracy1
+[1] 0.9981308
+accuracy2 <- sum(pred2==testing$classe)/(nrow(testing))
+> accuracy2
+[1] 0.9998301
+```
+
+
 
 
