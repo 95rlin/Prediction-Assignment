@@ -12,6 +12,7 @@ Six young health participants were asked to perform one set of 10 repetitions of
 
 ### Clean training and testing set
 
+
 ```
 train_csv <- read.csv(file = "week4_proj/pml-training.csv", header = TRUE, na.strings=c("", "NA", "#DIV/0!"))  # set all missing data to NA
 test_csv <- read.csv(file = "week4_proj/pml-testing.csv", header = TRUE, na.strings=c("", "NA", "#DIV/0!")) # set all missing data to NA
