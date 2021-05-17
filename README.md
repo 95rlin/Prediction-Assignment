@@ -72,7 +72,7 @@ accuracy2 <- sum(pred2==testing$classe)/(nrow(testing))
 [1] 0.9998301
 ```
 ### Prediction
-Since modFit2 is more accurate, I use this model to predict the classe's in the test set (clean_test_csv).
+Since modFit2 is more accurate, I use this model to predict the test set's classe (clean_test_csv).
 
 ```
 results <- predict(modFit2, newdata=clean_test_csv)
